@@ -24,8 +24,8 @@ bot.on('message', (msg) => {
   bot.sendChatAction(chatId, 'typing');
   console.log('Message received:', text);
 
-  // Use cmd.exe to run claude
-  const child = spawn('cmd.exe', ['/c', 'claude', '-p', text], {
+  // Use cmd.exe to run claude with --dangerously-skip-permissions
+  const child = spawn('cmd.exe', ['/c', 'claude', '--dangerously-skip-permissions', '-p', text], {
     cwd: 'C:\\Users\\john',
     env: process.env,
     stdio: ['pipe', 'pipe', 'pipe'],
