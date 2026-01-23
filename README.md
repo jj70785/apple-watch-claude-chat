@@ -15,6 +15,13 @@ Apple Watch ← Telegram App ← Telegram Bot API ←────┘
 3. It runs Claude Code with your message
 4. Claude's response is sent back through Telegram to your watch
 
+## Features
+
+- Chat with Claude from your Apple Watch
+- **Full permissions mode** - Claude can search the web, read/write files, run commands without asking
+- Uses your existing Claude Pro/Max subscription (no API costs)
+- Free Telegram messaging
+
 ## Cost
 
 **$0** - Uses your existing Claude Pro/Max subscription through Claude Code. Telegram is free.
@@ -108,6 +115,16 @@ pm2 save
 **401 Unauthorized**: Your bot token is invalid. Get a new one from BotFather.
 
 **No response from Claude**: Make sure Claude Code is installed and authenticated. Test with `claude -p "hi"` in terminal.
+
+## Permissions Mode
+
+The bot runs with `--dangerously-skip-permissions` flag, which means Claude can:
+- Search the web
+- Read and write files
+- Run shell commands
+- Access the internet
+
+All without asking for permission. If you want Claude to ask before taking actions, remove the `--dangerously-skip-permissions` flag from line 28 in `server.js`.
 
 **Bot not receiving messages**: Check that the bot is running and your internet connection is working.
 
