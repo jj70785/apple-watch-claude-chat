@@ -181,7 +181,7 @@ bot.on('message', (msg) => {
 
   if (history.length > 0) {
     fullPrompt = 'Here is our conversation so far:\n\n';
-    for (const msg of history.slice(-10)) {
+    for (const msg of history.slice(-40)) {  // Last 20 exchanges
       fullPrompt += `${msg.role === 'user' ? 'User' : 'You'}: ${msg.content}\n\n`;
     }
     fullPrompt += `User: ${text}\n\nRespond to the user's latest message. Remember the conversation context above.`;
@@ -232,9 +232,9 @@ bot.on('message', (msg) => {
       history.push({ role: 'user', content: text });
       history.push({ role: 'assistant', content: response });
 
-      // Keep only last 10 messages
-      if (history.length > 10) {
-        history = history.slice(-10);
+      // Keep only last 40 messages (20 exchanges)
+      if (history.length > 40) {
+        history = history.slice(-40);
       }
       conversations.set(chatId, history);
 
