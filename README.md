@@ -77,7 +77,9 @@ Message your bot on Telegram - it will respond with Claude!
 | Message | Action |
 |---------|--------|
 | Any text | Chat with Claude (remembers context!) |
-| `new chat` / `new session` / `clear` | Start fresh conversation |
+| `new chat` / `new session` / `clear` | Save current chat & start fresh |
+| `resume` | Show list of saved conversations |
+| `1`, `2`, `3`... | Resume that saved conversation |
 | `help` or `/start` | Show help message |
 
 ## Conversation Memory
@@ -86,12 +88,16 @@ The bot remembers your conversation! Claude will recall what you talked about in
 
 - Memory persists until you say "new chat" or restart the bot
 - Last 5 exchanges (10 messages) are kept as context
-- Memory is stored in RAM (clears if bot restarts)
+- Say "new chat" to save the conversation before starting fresh
+- Say "resume" to load a previously saved conversation
+- Saved chats persist in `conversations.json` (survives bot restarts)
 
 ## Files
 
-- `server.js` - Main bot server (with conversation memory)
-- `server-v1-simple.js` - Backup: simple version without memory
+- `server.js` - Main bot server (with memory + resume)
+- `server-v2-memory.js` - Backup: memory only (no resume)
+- `server-v1-simple.js` - Backup: simple version (no memory)
+- `conversations.json` - Saved conversations (auto-created)
 - `package.json` - Node.js dependencies
 - `.env` - Your bot token (not committed to git)
 - `.env.example` - Template for environment variables
