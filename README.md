@@ -2,6 +2,28 @@
 
 Chat with Claude AI from your Apple Watch using Telegram. Messages are processed through Claude Code using your Claude Pro/Max subscription.
 
+## Quick Download
+
+**[Download ZIP](https://github.com/jj70785/apple-watch-claude-chat/archive/refs/heads/master.zip)** | **[View on GitHub](https://github.com/jj70785/apple-watch-claude-chat)**
+
+### Quick Install (Windows)
+```bash
+# 1. Download and extract ZIP, then:
+cd apple-watch-claude-chat-master
+npm install
+
+# 2. Create .env file with your bot token:
+echo TELEGRAM_BOT_TOKEN=your_token_here > .env
+
+# 3. Run:
+node server.js
+```
+
+### Linux Users
+See **[LINUX-SETUP.md](LINUX-SETUP.md)** for complete Linux installation guide.
+
+---
+
 ## How It Works
 
 ```
@@ -18,6 +40,8 @@ Apple Watch ← Telegram App ← Telegram Bot API ←────┘
 ## Features
 
 - Chat with Claude from your Apple Watch
+- **Conversation memory** - Claude remembers up to 20 exchanges
+- **Save & resume chats** - Save conversations and load them later
 - **Full permissions mode** - Claude can search the web, read/write files, run commands without asking
 - Uses your existing Claude Pro/Max subscription (no API costs)
 - Free Telegram messaging
@@ -43,14 +67,25 @@ Apple Watch ← Telegram App ← Telegram Bot API ←────┘
 4. Choose a username ending in `bot` (e.g., `my_claude_bot`)
 5. Save the **Bot Token** that BotFather gives you
 
-### 2. Install Dependencies
+### 2. Download the Project
+
+**Option A: Download ZIP**
+- Download from: https://github.com/jj70785/apple-watch-claude-chat/archive/refs/heads/master.zip
+- Extract the ZIP file
+
+**Option B: Clone with Git**
+```bash
+git clone https://github.com/jj70785/apple-watch-claude-chat.git
+cd apple-watch-claude-chat
+```
+
+### 3. Install Dependencies
 
 ```bash
-cd "Apple Watch Claude Chat"
 npm install
 ```
 
-### 3. Configure Environment
+### 4. Configure Environment
 
 Create a `.env` file in the project folder:
 
@@ -60,7 +95,7 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
 
 Replace `your_bot_token_here` with the token from BotFather.
 
-### 4. Run the Bot
+### 5. Run the Bot
 
 ```bash
 node server.js
@@ -68,7 +103,7 @@ node server.js
 
 You should see: `Bot is running! Waiting for messages...`
 
-### 5. Start Chatting
+### 6. Start Chatting
 
 Message your bot on Telegram - it will respond with Claude!
 
@@ -86,21 +121,23 @@ Message your bot on Telegram - it will respond with Claude!
 
 The bot remembers your conversation! Claude will recall what you talked about in the same session.
 
-- Memory persists until you say "new chat" or restart the bot
-- Last 5 exchanges (10 messages) are kept as context
+- **Remembers last 20 exchanges** (40 messages)
 - Say "new chat" to save the conversation before starting fresh
 - Say "resume" to load a previously saved conversation
 - Saved chats persist in `conversations.json` (survives bot restarts)
 
 ## Files
 
-- `server.js` - Main bot server (with memory + resume)
-- `server-v2-memory.js` - Backup: memory only (no resume)
-- `server-v1-simple.js` - Backup: simple version (no memory)
-- `conversations.json` - Saved conversations (auto-created)
-- `package.json` - Node.js dependencies
-- `.env` - Your bot token (not committed to git)
-- `.env.example` - Template for environment variables
+| File | Description |
+|------|-------------|
+| `server.js` | Main bot server (with memory + resume) |
+| `server-v2-memory.js` | Backup: memory only (no resume) |
+| `server-v1-simple.js` | Backup: simple version (no memory) |
+| `conversations.json` | Saved conversations (auto-created) |
+| `package.json` | Node.js dependencies |
+| `.env` | Your bot token (not committed to git) |
+| `.env.example` | Template for environment variables |
+| `LINUX-SETUP.md` | Setup guide for Linux |
 
 ## Running on Apple Watch
 
@@ -108,9 +145,9 @@ The bot remembers your conversation! Claude will recall what you talked about in
 2. Sign into your Telegram account
 3. Find your bot and start chatting!
 
-## Keeping It Running
+## Keeping It Running 24/7
 
-The bot needs to stay running for messages to work. Options:
+The bot needs to stay running for messages to work.
 
 **Windows:**
 - Keep the terminal open
@@ -118,18 +155,20 @@ The bot needs to stay running for messages to work. Options:
 
 **Linux:**
 ```bash
-# Using pm2
+# Using pm2 (recommended)
 npm install -g pm2
 pm2 start server.js --name claude-bot
-pm2 startup
+pm2 startup    # Enable auto-start on boot
 pm2 save
 ```
 
 ## Troubleshooting
 
-**401 Unauthorized**: Your bot token is invalid. Get a new one from BotFather.
-
-**No response from Claude**: Make sure Claude Code is installed and authenticated. Test with `claude -p "hi"` in terminal.
+| Problem | Solution |
+|---------|----------|
+| 401 Unauthorized | Your bot token is invalid. Get a new one from BotFather |
+| No response from Claude | Make sure Claude Code is installed and authenticated. Test: `claude -p "hi"` |
+| Bot not receiving messages | Check that the bot is running and internet is connected |
 
 ## Permissions Mode
 
@@ -139,9 +178,15 @@ The bot runs with `--dangerously-skip-permissions` flag, which means Claude can:
 - Run shell commands
 - Access the internet
 
-All without asking for permission. If you want Claude to ask before taking actions, remove the `--dangerously-skip-permissions` flag from line 28 in `server.js`.
+All without asking for permission. To require permission prompts, remove `--dangerously-skip-permissions` from `server.js`.
 
-**Bot not receiving messages**: Check that the bot is running and your internet connection is working.
+## Version History
+
+| Version | File | Features |
+|---------|------|----------|
+| v3 (current) | `server.js` | Memory + Resume + 20 exchanges |
+| v2 | `server-v2-memory.js` | Memory only |
+| v1 | `server-v1-simple.js` | Basic (no memory) |
 
 ## License
 
