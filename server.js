@@ -6,6 +6,10 @@ const path = require('path');
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
+// ===== CUSTOMIZE CLAUDE'S PERSONALITY HERE =====
+const SYSTEM_PROMPT = `You are a helpful, friendly AI assistant named Claude. You can help with ANY topic - not just programming. Be conversational, warm, and concise. Keep responses short since they may be read on a small watch screen. Don't mention being a software engineer or Claude Code.`;
+// ===============================================
+
 // Store conversation history per chat (in memory)
 const conversations = new Map();
 
@@ -177,16 +181,16 @@ bot.on('message', (msg) => {
   let history = conversations.get(chatId) || [];
 
   // Build the full prompt with history
-  let fullPrompt = '';
+  let fullPrompt = SYSTEM_PROMPT + '\n\n';
 
   if (history.length > 0) {
-    fullPrompt = 'Here is our conversation so far:\n\n';
+    fullPrompt += 'Here is our conversation so far:\n\n';
     for (const msg of history.slice(-40)) {  // Last 20 exchanges
       fullPrompt += `${msg.role === 'user' ? 'User' : 'You'}: ${msg.content}\n\n`;
     }
     fullPrompt += `User: ${text}\n\nRespond to the user's latest message. Remember the conversation context above.`;
   } else {
-    fullPrompt = text;
+    fullPrompt += `User: ${text}`;
   }
 
   console.log('Full prompt:', fullPrompt);
