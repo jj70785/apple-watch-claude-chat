@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(claude:*)",
+      "Bash(npm install)",
+      "Bash(node server.js:*)",
+      "Bash(\"C:\\\\Users\\\\john\\\\.local\\\\bin\\\\claude.exe\" -p \"hi\")",
+      "Bash(copy:*)",
+      "Bash(cmd /c copy:*)",
+      "Bash(dir \"C:\\\\Users\\\\john\\\\Documents\\\\CLAUDDY\\\\Apple Watch Claude Chat\\\\*.js\")"
+    ]
+  }
+}
